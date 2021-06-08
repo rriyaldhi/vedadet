@@ -12,8 +12,8 @@ def parse_args():
     parser.add_argument('config', help='config file path')
     parser.add_argument('checkpoint', help='checkpoint file path')
     parser.add_argument('out', help='output onnx file name')
-    parser.add_argument('--dummy_input_shape', default='3,800,1344',
-                        type=str, help='model input shape like 3,800,1344. '
+    parser.add_argument('--dummy_input_shape', default='3,875,1280',
+                        type=str, help='model input shape like 3,875,1280. '
                                        'Shape format is CxHxW')
     parser.add_argument('--dynamic_shape', default=False, action='store_true',
                         help='whether to use dynamic shape')
