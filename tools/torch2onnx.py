@@ -54,11 +54,12 @@ def main():
         print(f'Convert to Onnx with constant input shape '
               f'{args.dummy_input_shape} and '
               f'opset version {args.opset_version}')
-    torch2onnx(model, dummy_input, args.out, dynamic_shape=args.dynamic_shape,
-               opset_version=args.opset_version,
-               do_constant_folding=args.do_constant_folding,
-               verbose=args.verbose)
-    print(f'Convert successfully, saved onnx file: {os.path.abspath(args.out)}')
+    print(model(dummy_input))
+    # torch2onnx(model, dummy_input, args.out, dynamic_shape=args.dynamic_shape,
+    #            opset_version=args.opset_version,
+    #            do_constant_folding=args.do_constant_folding,
+    #            verbose=args.verbose)
+    # print(f'Convert successfully, saved onnx file: {os.path.abspath(args.out)}')
 
 
 if __name__ == '__main__':
