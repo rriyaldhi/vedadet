@@ -1,1 +1,1 @@
-python3 tools/torch2onnx.py configs/trainval/tinaface/tinaface_r50_fpn_bn.py tinaface_r50_fpn_bn.pth output.onnx
+python3 tools/torch2onnx.py configs/trainval/tinaface/tinaface_r50_fpn_bn.py tinaface_r50_fpn_bn.pth tinaface_r50_fpn_bn.onnx
