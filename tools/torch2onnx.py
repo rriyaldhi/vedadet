@@ -1,10 +1,8 @@
-import os
 import argparse
 
 import torch
 from vedacore.misc import Config, load_weights
 from vedadet.models import build_detector
-from volksdep.converters import torch2onnx
 import utils
 
 def parse_args():
@@ -62,13 +60,6 @@ def main():
     with torch.no_grad():
         output = model(dummy_input)
     print(output)
-
-    # torch2onnx(model, dummy_input, args.out, dynamic_shape=args.dynamic_shape,
-    #            opset_version=args.opset_version,
-    #            do_constant_folding=args.do_constant_folding,
-    #            verbose=args.verbose)
-    # print(f'Convert successfully, saved onnx file: {os.path.abspath(args.out)}')
-
 
 if __name__ == '__main__':
     main()
