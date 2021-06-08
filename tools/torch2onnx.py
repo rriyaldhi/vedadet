@@ -54,15 +54,16 @@ def main():
               f'{args.dummy_input_shape} and '
               f'opset version {args.opset_version}')
 
-    if isinstance(dummy_input, tuple):
-        dummy_input = list(dummy_input)
-    dummy_input = utils.to(dummy_input, 'cuda')
+    # if isinstance(dummy_input, tuple):
+    #     dummy_input = list(dummy_input)
+    # dummy_input = utils.to(dummy_input, 'cuda')
     # model.eval().cuda()
     # with torch.no_grad():
     #     output = model(dummy_input)
     # print(output)
 
-    model_trt = torch2trt(model, [torch.randn(1, *shape).cuda()])
+    x = torch.ones((64, 3, 7, 7)).cuda()
+    model_trt = torch2trt(model, [x])
     # output_trt = model_trt(dummy_input)
 
 if __name__ == '__main__':
