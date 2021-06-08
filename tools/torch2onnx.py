@@ -4,6 +4,7 @@ import torch
 from vedacore.misc import Config, load_weights
 from vedadet.models import build_detector
 import utils
+from torch2trt import torch2trt
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Convert to Onnx model.')
@@ -60,6 +61,9 @@ def main():
     with torch.no_grad():
         output = model(dummy_input)
     print(output)
+
+    model_trt = torch2trt(model, [dummy_input])
+    output_trt = model_trt(dummy_input)
 
 if __name__ == '__main__':
     main()
