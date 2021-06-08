@@ -137,3 +137,5 @@ eval_dirs/
 nohup.out
 
 tools/eval_widerface
+
+.idea
