@@ -59,8 +59,10 @@ def main():
         dummy_input = list(dummy_input)
     dummy_input = utils.to(dummy_input, 'cuda')
     model.eval().cuda()
+    with torch.no_grad():
+        output = model(dummy_input)
+    print(output)
 
-    print(model(dummy_input))
     # torch2onnx(model, dummy_input, args.out, dynamic_shape=args.dynamic_shape,
     #            opset_version=args.opset_version,
     #            do_constant_folding=args.do_constant_folding,
