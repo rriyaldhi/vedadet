@@ -17,7 +17,7 @@ def parse_args():
                                        'Shape format is CxHxW')
     parser.add_argument('--dynamic_shape', default=False, action='store_true',
                         help='whether to use dynamic shape')
-    parser.add_argument('--opset_version', default=11, type=int,
+    parser.add_argument('--opset_version', default=12, type=int,
                         help='onnx opset version')
     parser.add_argument('--do_constant_folding', default=False,
                         action='store_true',
