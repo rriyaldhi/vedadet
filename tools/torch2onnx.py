@@ -1,10 +1,11 @@
+import os
 import argparse
 
 import torch
 from vedacore.misc import Config, load_weights
 from vedadet.models import build_detector
-import utils
-from torch2trt import torch2trt
+from volksdep.converters import torch2onnx
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Convert to Onnx model.')
@@ -53,17 +54,12 @@ def main():
         print(f'Convert to Onnx with constant input shape '
               f'{args.dummy_input_shape} and '
               f'opset version {args.opset_version}')
+    torch2onnx(model, dummy_input, args.out, dynamic_shape=args.dynamic_shape,
+               opset_version=args.opset_version,
+               do_constant_folding=args.do_constant_folding,
+               verbose=args.verbose)
+    print(f'Convert successfully, saved onnx file: {os.path.abspath(args.out)}')
 
-    if isinstance(dummy_input, tuple):
-        dummy_input = list(dummy_input)
-    dummy_input = utils.to(dummy_input, 'cuda')
-    model.eval().cuda()
-    model_trt = torch2trt(model, [dummy_input])
-    # with torch.no_grad():
-    #     output = model(dummy_input)
-    # print(output)
-
-    # output_trt = model_trt(dummy_input)
 
 if __name__ == '__main__':
     main()
