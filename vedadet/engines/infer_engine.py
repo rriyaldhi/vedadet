@@ -46,9 +46,9 @@ class InferEngine(BaseEngine):
                                                         dtype, device)
             # bboxes, scores, score_factor
             dets = self.converter.get_bboxes(anchor_mesh, img_metas, *feats)
+            duration = time.time() - start
             print(i)
             print(duration)
-            duration = time.time() - start
             if i > 0:
                 total += duration
         print(total / (n - 1))
