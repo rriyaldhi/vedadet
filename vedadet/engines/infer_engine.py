@@ -21,6 +21,17 @@ class InferEngine(BaseEngine):
         self.test_cfg = test_cfg
 
     def extract_feats(self, img):
+        total = 0
+        n = 101
+        for i in range(n):
+            start = time.time()
+            feats = self.model(img, train=False)
+            duration = time.time() - start
+            print(i)
+            print(duration)
+            if i > 0:
+                total += duration
+        print(total / (n - 1))
         feats = self.model(img, train=False)
         return feats
 
@@ -33,26 +44,6 @@ class InferEngine(BaseEngine):
             dets(list): len(dets) is the batch size, len(dets[ii]) = #classes,
                 dets[ii][jj] is an np.array whose shape is N*5
         """
-        total = 0
-        n = 101
-        for i in range(n):
-            start = time.time()
-            feats = self.extract_feats(img)
-
-            featmap_sizes = [feat.shape[-2:] for feat in feats[0]]
-            dtype = feats[0][0].dtype
-            device = feats[0][0].device
-            anchor_mesh = self.meshgrid.gen_anchor_mesh(featmap_sizes, img_metas,
-                                                        dtype, device)
-            # bboxes, scores, score_factor
-            dets = self.converter.get_bboxes(anchor_mesh, img_metas, *feats)
-            duration = time.time() - start
-            print(i)
-            print(duration)
-            if i > 0:
-                total += duration
-        print(total / (n - 1))
-
         feats = self.extract_feats(img)
 
         featmap_sizes = [feat.shape[-2:] for feat in feats[0]]
