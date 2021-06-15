@@ -22,13 +22,13 @@ class InferEngine(BaseEngine):
 
     def extract_feats(self, img):
         total = 0
-        n = 101
+        n = 51
         for i in range(n):
             start = time.time()
             feats = self.model(img, train=False)
             duration = time.time() - start
-            print(i)
-            print(duration)
+            # print(i)
+            # print(duration)
             if i > 0:
                 total += duration
         print(total / (n - 1))
