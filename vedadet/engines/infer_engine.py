@@ -4,7 +4,7 @@ from vedacore.misc import registry
 from vedadet.bridge import build_converter, build_meshgrid
 from vedadet.misc.bbox import bbox2result, multiclass_nms
 from .base_engine import BaseEngine
-
+import time
 
 @registry.register_module('engine')
 class InferEngine(BaseEngine):
@@ -33,6 +33,24 @@ class InferEngine(BaseEngine):
             dets(list): len(dets) is the batch size, len(dets[ii]) = #classes,
                 dets[ii][jj] is an np.array whose shape is N*5
         """
+        total = 0
+        n = 101
+        for i in range(n):
+            start = time.time()
+            feats = self.extract_feats(img)
+
+            featmap_sizes = [feat.shape[-2:] for feat in feats[0]]
+            dtype = feats[0][0].dtype
+            device = feats[0][0].device
+            anchor_mesh = self.meshgrid.gen_anchor_mesh(featmap_sizes, img_metas,
+                                                        dtype, device)
+            # bboxes, scores, score_factor
+            dets = self.converter.get_bboxes(anchor_mesh, img_metas, *feats)
+            if i > 0:
+                duration = time.time() - start
+                total += duration
+        print(total / (n - 1))
+
         feats = self.extract_feats(img)
 
         featmap_sizes = [feat.shape[-2:] for feat in feats[0]]
